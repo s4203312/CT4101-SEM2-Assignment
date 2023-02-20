@@ -287,9 +287,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 211312dff876c224bb2a4fe19f6cb7c8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sizeUniverse: 300
-  numberOfStars: 2
-  planetsPerStar: 5
+  panel: {fileID: 0}
+  sizeUniverseInput: {fileID: 0}
+  numberOfStarsInput: {fileID: 0}
+  planetsPerStarInput: {fileID: 0}
+  sizeUniverse: 1000
+  numberOfStars: 10
+  planetsPerStar: 3
   star: {fileID: 8068913760299449713, guid: 0c6532b0a16aca040b0fba887c9aa38e, type: 3}
   starArray: []
   starNames:
@@ -2574,7 +2578,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &2073294989
 RectTransform:
   m_ObjectHideFlags: 0

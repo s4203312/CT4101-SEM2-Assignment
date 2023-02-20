@@ -16,11 +16,11 @@ public class CameraMovement : MonoBehaviour {
 
 
     private void Start() {
-        cam = Camera.main;      //Setting the cam variable to be the main camera
-        if (Cursor.lockState != CursorLockMode.Locked)      //Locks the cursor into the screen
-        {
-            Cursor.lockState = CursorLockMode.Locked;
-        }
+        //cam = Camera.main;      //Setting the cam variable to be the main camera
+        //if (Cursor.lockState != CursorLockMode.Locked)      //Locks the cursor into the screen
+        //{
+        //    Cursor.lockState = CursorLockMode.Locked;
+        //}
     }
 
 

@@ -43,9 +43,9 @@ public class CreatingObjects : MonoBehaviour
 
     void Start()
     {
-        sizeUniverse = float.Parse(sizeUniverseInput.text);
-        numberOfStars = int.Parse(numberOfStarsInput.text);
-        planetsPerStar = int.Parse(planetsPerStarInput.text);
+        //sizeUniverse = float.Parse(sizeUniverseInput.text);
+        //numberOfStars = int.Parse(numberOfStarsInput.text);
+        //planetsPerStar = int.Parse(planetsPerStarInput.text);
 
         Creation();
         Rendering();
