@@ -13,7 +13,7 @@ public class CreatingObjects : MonoBehaviour
     public float sizeUniverse;
     public int numberOfStars;
     public int planetsPerStar;
-    
+
     //Stars
     [SerializeField] public GameObject star;
     [SerializeField] public GameObject[] starArray;
@@ -28,8 +28,8 @@ public class CreatingObjects : MonoBehaviour
     //Orbiting
     [SerializeField] public float orbitSpeed;
     private GameObject planetSetting;
-    Vector3[] rotations = new Vector3[] 
-    { 
+    Vector3[] rotations = new Vector3[]
+    {
         new Vector3(1,0,0), new Vector3(0, 1, 0), new Vector3(0, 0, 1),
         new Vector3(1,1,0), new Vector3(0, 1, 1), new Vector3(1, 0, 1),new Vector3(1, 1, 1),
         new Vector3(-1,0,0), new Vector3(0, -1, 0), new Vector3(0, 0, -1),
@@ -51,9 +51,15 @@ public class CreatingObjects : MonoBehaviour
         Rendering();
     }
 
-    private void Update() 
+    private void Update()
     {
         Orbiting();
+    }
+
+    void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(new Vector3(0,0,0) , sizeUniverse);
     }
 
     private void Creation()
@@ -81,22 +87,27 @@ public class CreatingObjects : MonoBehaviour
         }
     }
 
-    private void Rendering() {
-        foreach (var star in starArray) {
+    private void Rendering()
+    {
+        foreach (var star in starArray)
+        {
             star.GetComponent<Renderer>().material = mat[Random.Range(0, mat.Length)];
         }
-        foreach (var planet in planetArray) {
+        foreach (var planet in planetArray)
+        {
             planet.GetComponent<Renderer>().material = mat[Random.Range(0, mat.Length)];
         }
     }
 
-    private void Orbiting() 
+    private void Orbiting()
     {
-        foreach (var star in starArray) {
-            for(var i = 0; i < planetsPerStar; i++) {
+        foreach (var star in starArray)
+        {
+            for (var i = 0; i < planetsPerStar; i++)
+            {
                 planetSetting = star.gameObject.transform.GetChild(i).gameObject;
-                Vector3 pos = star.transform.localPosition;
-                planetSetting.transform.RotateAround(pos, rotationDirection[rotationCounter], Random.Range(5.0f,30.0f) * Time.deltaTime);
+                Vector3 pos = star.transform.position;
+                planetSetting.transform.RotateAround(pos, rotationDirection[rotationCounter], Random.Range(5.0f, 30.0f) * Time.deltaTime);
                 rotationCounter += 1;
             }
         }
