@@ -6,10 +6,6 @@ using UnityEngine;
 public class CreatingObjects : MonoBehaviour
 {
     //Universe
-    [SerializeField] private CanvasGroup panel;
-    [SerializeField] private TMP_InputField sizeUniverseInput;
-    [SerializeField] private TMP_InputField numberOfStarsInput;
-    [SerializeField] private TMP_InputField planetsPerStarInput;
     public float sizeUniverse;
     public int numberOfStars;
     public int planetsPerStar;
@@ -43,9 +39,10 @@ public class CreatingObjects : MonoBehaviour
 
     void Start()
     {
-        //sizeUniverse = float.Parse(sizeUniverseInput.text);
-        //numberOfStars = int.Parse(numberOfStarsInput.text);
-        //planetsPerStar = int.Parse(planetsPerStarInput.text);
+        //Getting Set Up information
+        sizeUniverse = SetUp.sizeUniverse;
+        numberOfStars = SetUp.numberOfStars;
+        planetsPerStar = SetUp.planetsPerStar;
 
         Creation();
         Rendering();
