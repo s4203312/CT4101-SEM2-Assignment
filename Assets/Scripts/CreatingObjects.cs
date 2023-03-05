@@ -37,6 +37,9 @@ public class CreatingObjects : MonoBehaviour
     //Rendering
     [SerializeField] public Material[] mat;
 
+    //RouteCreating
+    private CreatingRoutes creatingRoutes;
+
     void Start()
     {
         //Getting Set Up information
@@ -46,6 +49,7 @@ public class CreatingObjects : MonoBehaviour
 
         Creation();
         Rendering();
+        creatingRoutes.Routes(starArray);
     }
 
     private void Update()
@@ -67,7 +71,7 @@ public class CreatingObjects : MonoBehaviour
 
         for (var i = 0; i < numberOfStars; i++)
         {
-            var positionStar = new Vector3(Random.Range(-sizeUniverse, sizeUniverse), Random.Range(-sizeUniverse, sizeUniverse), Random.Range(-sizeUniverse, sizeUniverse));
+            var positionStar = new Vector3(Random.Range(0, sizeUniverse), 0 /*Random.Range(-sizeUniverse, sizeUniverse)*/, Random.Range(0, sizeUniverse));
             starArray[i] = Instantiate(star, positionStar, Quaternion.identity);
             starArray[i].transform.tag = "Star";
             starArray[i].transform.name = starNames[Random.Range(0, starNames.Length)] + " " + i;
