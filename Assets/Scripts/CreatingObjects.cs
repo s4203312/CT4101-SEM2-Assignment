@@ -49,7 +49,7 @@ public class CreatingObjects : MonoBehaviour
 
         Creation();
         Rendering();
-        creatingRoutes.Routes(starArray);
+        //creatingRoutes.Routes(starArray);
     }
 
     private void Update()

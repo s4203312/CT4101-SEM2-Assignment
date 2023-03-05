@@ -10,6 +10,11 @@ public class CameraMovement : MonoBehaviour {
     [SerializeField] private Camera cam;
     [SerializeField] private Transform original;
 
+    public Pathfinding pathfinding;
+
+    public GameObject playerStar;
+    public GameObject targetStar;
+
 
     void Update() {
         if (Input.GetMouseButtonDown(0)) {
@@ -17,14 +22,30 @@ public class CameraMovement : MonoBehaviour {
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit)) {
                 if (hit.transform.CompareTag("Star")) {
-                    cam.transform.position = hit.transform.GetChild(0).transform.position;
-                    cam.transform.localRotation = hit.transform.GetChild(0).transform.localRotation;
+                    
+                    playerStar = hit.transform.gameObject;
+
+                    //cam.transform.position = hit.transform.GetChild(0).transform.position;
+                    //cam.transform.localRotation = hit.transform.GetChild(0).transform.localRotation;
                 }
             }
         }
         if (Input.GetMouseButtonDown(1)) {
-            cam.transform.position = original.transform.position;
-            cam.transform.localRotation = original.transform.localRotation;
+            Ray ray = Camera.main.ScreenPointToRay(Input.mousePosition);
+            RaycastHit hit;
+            if (Physics.Raycast(ray, out hit)) {
+                if (hit.transform.CompareTag("Star")) {
+
+                    targetStar = hit.transform.gameObject;
+                    pathfinding.FindPath(playerStar, targetStar);
+                }
+            }
+
+
+
+
+                    //cam.transform.position = original.transform.position;
+                    //cam.transform.localRotation = original.transform.localRotation;
         }
     }
 }
