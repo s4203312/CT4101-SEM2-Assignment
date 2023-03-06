@@ -16,9 +16,6 @@ public class UserInterface : MonoBehaviour {
     private string objName;
     private string description;
 
-    //Pathfinding
-    private Pathfinding pathfinding;
-
     private void Start() {
         if (panel != null) {
             Details = panel.gameObject.GetComponentInChildren<TextMeshProUGUI>();        //Finding the textbox
@@ -43,15 +40,6 @@ public class UserInterface : MonoBehaviour {
         else {
             Details.text = "";
         }
-        //if (Input.GetMouseButtonDown(0)) {
-        //    Ray pathRay = Camera.main.ScreenPointToRay(Input.mousePosition);
-        //    RaycastHit targetStar;
-        //    if (Physics.Raycast(pathRay, out targetStar)) {
-        //        if (hit.transform.CompareTag("Star")) {
-        //            pathfinding.FindPath();
-        //        }
-        //    }
-        //}
     }
     //Details of planets
     private void PlanetDetails(string planet) {

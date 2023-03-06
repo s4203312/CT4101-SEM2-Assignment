@@ -20,34 +20,50 @@ public class Pathfinding{
     public GameObject correctNeighbour;
 
     public void FindPath(GameObject playerStar, GameObject targetStar) {
+        
+        Debug.Log("Starting");
+        
         //At start
         gCost = 0;
         hCost = Distance(playerStar, targetStar);
         fCost = CalcFCost(gCost,hCost);
         currentStar = playerStar;
         
+        Debug.Log(fCost);
+
         //Looping unitl path found
-        while(currentStar != targetStar) {
+
+        neighboursFCosts = new List<float>();
+        pathStars = new List<GameObject>();
+
+        while (currentStar != targetStar) {
             neighbours = Physics.OverlapSphere(currentStar.transform.position, 300);
+            if(neighbours == null) {
+                Debug.Log("No neighbours");
+                break;
+            }
             //Calculating neighbour h,g,f costs
             foreach(Collider neighbour in neighbours) {
                 hCost = Distance(currentStar, neighbour.gameObject);
                 gCost = /*currentStar.gCost + */ hCost;
                 fCost = CalcFCost(gCost,hCost);
+                Debug.Log(fCost);
                 neighboursFCosts.Add(fCost);
             }
             //Finding best neighbour
             float minValue = neighboursFCosts.Min();
             int positionList = neighboursFCosts.IndexOf(minValue);
             correctNeighbour = neighbours[positionList].gameObject;
+            //Clearing neighbours
+            neighboursFCosts.Clear();
             //Adding to the correct path
             pathStars.Add(correctNeighbour);
             currentStar = correctNeighbour;
-            Debug.Log(currentStar);
         }
 
         //Drawing path
         foreach (GameObject star in pathStars) {
+            Debug.Log(star);
             //Gizmos.DrawLine(star,//the next star??)        
         }
     }

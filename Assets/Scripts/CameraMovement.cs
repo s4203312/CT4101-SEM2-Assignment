@@ -15,6 +15,9 @@ public class CameraMovement : MonoBehaviour {
     public GameObject playerStar;
     public GameObject targetStar;
 
+    public void Start() {
+        pathfinding = new Pathfinding();
+    }
 
     void Update() {
         if (Input.GetMouseButtonDown(0)) {
@@ -37,15 +40,15 @@ public class CameraMovement : MonoBehaviour {
                 if (hit.transform.CompareTag("Star")) {
 
                     targetStar = hit.transform.gameObject;
+                    Debug.Log(targetStar);
+                    Debug.Log(playerStar);
                     pathfinding.FindPath(playerStar, targetStar);
                 }
             }
 
 
-
-
-                    //cam.transform.position = original.transform.position;
-                    //cam.transform.localRotation = original.transform.localRotation;
+            //cam.transform.position = original.transform.position;
+            //cam.transform.localRotation = original.transform.localRotation;
         }
     }
 }
