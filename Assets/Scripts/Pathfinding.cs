@@ -38,27 +38,29 @@ public class Pathfinding{
 
         while (currentStar != targetStar) {
             neighbours = Physics.OverlapSphere(currentStar.transform.position, 300);
-            if(neighbours == null) {
+            if (neighbours != null) {
+                //Calculating neighbour h,g,f costs
+                foreach (Collider neighbour in neighbours) {
+                    hCost = Distance(currentStar, neighbour.gameObject);
+                    gCost = /*currentStar.gCost + */ hCost;
+                    fCost = CalcFCost(gCost, hCost);
+                    Debug.Log(fCost);
+                    neighboursFCosts.Add(fCost);
+                }
+                //Finding best neighbour
+                float minValue = neighboursFCosts.Min();
+                int positionList = neighboursFCosts.IndexOf(minValue);
+                correctNeighbour = neighbours[positionList].gameObject;
+                //Clearing neighbours
+                neighboursFCosts.Clear();
+                //Adding to the correct path
+                pathStars.Add(correctNeighbour);
+                currentStar = correctNeighbour;
+            }
+            else {
                 Debug.Log("No neighbours");
                 break;
             }
-            //Calculating neighbour h,g,f costs
-            foreach(Collider neighbour in neighbours) {
-                hCost = Distance(currentStar, neighbour.gameObject);
-                gCost = /*currentStar.gCost + */ hCost;
-                fCost = CalcFCost(gCost,hCost);
-                Debug.Log(fCost);
-                neighboursFCosts.Add(fCost);
-            }
-            //Finding best neighbour
-            float minValue = neighboursFCosts.Min();
-            int positionList = neighboursFCosts.IndexOf(minValue);
-            correctNeighbour = neighbours[positionList].gameObject;
-            //Clearing neighbours
-            neighboursFCosts.Clear();
-            //Adding to the correct path
-            pathStars.Add(correctNeighbour);
-            currentStar = correctNeighbour;
         }
 
         //Drawing path
