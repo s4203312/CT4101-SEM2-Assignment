@@ -8,6 +8,7 @@ using UnityEngine;
 public class Pathfinding{
 
     public float gCost;
+    public float RungCost;
     public float hCost;
     public float fCost;
 
@@ -17,6 +18,7 @@ public class Pathfinding{
 
     public Collider[] neighbours;
     public List<float> neighboursFCosts;
+    public List<float> neighboursGCosts;
     public GameObject correctNeighbour;
 
     public void FindPath(GameObject playerStar, GameObject targetStar) {
@@ -25,6 +27,7 @@ public class Pathfinding{
         
         //At start
         gCost = 0;
+        RungCost += gCost;
         hCost = Distance(playerStar, targetStar);
         fCost = CalcFCost(gCost,hCost);
         currentStar = playerStar;
@@ -34,6 +37,7 @@ public class Pathfinding{
         //Looping unitl path found
 
         neighboursFCosts = new List<float>();
+        neighboursGCosts = new List<float>();
         pathStars = new List<GameObject>();
 
         while (currentStar != targetStar) {
@@ -41,26 +45,33 @@ public class Pathfinding{
             if (neighbours != null) {
                 //Calculating neighbour h,g,f costs
                 foreach (Collider neighbour in neighbours) {
-                    hCost = Distance(currentStar, neighbour.gameObject);
-                    gCost = /*currentStar.gCost + */ hCost;
+                    currentStar = neighbour.gameObject;
+                    hCost = Distance(currentStar, targetStar);
+                    gCost = RungCost + Distance(playerStar, currentStar);
                     fCost = CalcFCost(gCost, hCost);
                     Debug.Log(fCost);
                     neighboursFCosts.Add(fCost);
+                    neighboursGCosts.Add(gCost);
                 }
                 //Finding best neighbour
                 float minValue = neighboursFCosts.Min();
                 int positionList = neighboursFCosts.IndexOf(minValue);
                 correctNeighbour = neighbours[positionList].gameObject;
+                RungCost += neighboursGCosts[positionList];
                 //Clearing neighbours
                 neighboursFCosts.Clear();
+                neighboursGCosts.Clear();
                 //Adding to the correct path
                 pathStars.Add(correctNeighbour);
                 currentStar = correctNeighbour;
+                Debug.Log(currentStar);
+                Debug.Log(targetStar);
             }
             else {
                 Debug.Log("No neighbours");
                 break;
             }
+            break;
         }
 
         //Drawing path
