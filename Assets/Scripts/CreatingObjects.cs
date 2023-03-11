@@ -38,7 +38,7 @@ public class CreatingObjects : MonoBehaviour
     [SerializeField] public Material[] mat;
 
     //RouteCreating
-    private CreatingRoutes creatingRoutes;
+    public GameObject previousStar;
 
     void Start()
     {
@@ -49,7 +49,6 @@ public class CreatingObjects : MonoBehaviour
 
         Creation();
         Rendering();
-        //creatingRoutes.Routes(starArray);
     }
 
     private void Update()
@@ -85,6 +84,13 @@ public class CreatingObjects : MonoBehaviour
                 planetCounter += 1;
                 rotationDirection.Add(rotations[Random.Range(0, rotations.Length)]);
             }
+
+            //Routes
+            if(previousStar != null) {
+                GameObject.Find("Routes").GetComponent<RouteMesh>().Generate(starArray[i].transform.position, previousStar.transform.position);
+                Debug.Log(i);
+            }
+            previousStar = starArray[i];
         }
     }
 
