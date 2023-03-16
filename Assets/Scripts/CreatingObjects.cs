@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.UIElements;
 
 public class CreatingObjects : MonoBehaviour
 {
@@ -39,6 +40,8 @@ public class CreatingObjects : MonoBehaviour
 
     //RouteCreating
     public GameObject previousStar;
+    public GameObject route;
+    public GameObject routes;
 
     void Start()
     {
@@ -70,7 +73,7 @@ public class CreatingObjects : MonoBehaviour
 
         for (var i = 0; i < numberOfStars; i++)
         {
-            var positionStar = new Vector3(Random.Range(0, sizeUniverse), 0 /*Random.Range(-sizeUniverse, sizeUniverse)*/, Random.Range(0, sizeUniverse));
+            var positionStar = new Vector3(Random.Range(0, sizeUniverse), Random.Range(0, sizeUniverse), Random.Range(0, sizeUniverse));
             starArray[i] = Instantiate(star, positionStar, Quaternion.identity);
             starArray[i].transform.tag = "Star";
             starArray[i].transform.name = starNames[Random.Range(0, starNames.Length)] + " " + i;
@@ -87,7 +90,8 @@ public class CreatingObjects : MonoBehaviour
 
             //Routes
             if(previousStar != null) {
-                GameObject.Find("Routes").GetComponent<RouteMesh>().Generate(starArray[i].transform.position, previousStar.transform.position);
+                routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
+                routes.GetComponent<RouteMesh>().Generate(starArray[i].transform.position, previousStar.transform.position);
                 Debug.Log(i);
             }
             previousStar = starArray[i];

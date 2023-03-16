@@ -87,27 +87,27 @@ public class UserInterface : MonoBehaviour {
         switch (star) {
             case "Sun":
                 objName = "Sun";
-                description = "";
+                description = "The Sun is the only star in our solar system. It has an avarge temperature of 5537°C and is a Yellow Dwarf star";
                 break;
             case "Pollux":
                 objName = "Pollux";
-                description = "";
+                description = "Pollux is a star that lies in the constellation Gemini. It has an avarge temperature of 4591°C and is a Red Giant star";
                 break;
-            case "Orion":
-                objName = "Orion";
-                description = "";
+            case "Betelgeuse":
+                objName = "Betelgeuse";
+                description = "Betelgeuse is a red supergiant and one of the largest stars visible to the naked eye. It has an avarge temperature of 3226°C";
                 break;
             case "Sirius":
                 objName = "Sirius";
-                description = "";
+                description = "Sirius is the brightest star in the night sky. It is 25.4 times as luminous as the Sun. It has an avarge temperature of 9982°C";
                 break;
             case "Altair":
                 objName = "Altair";
-                description = "";
+                description = " Altair is located at a distance of 16.7 light-years (5.1 parsecs) from the Sun. It has an avarge temperature of 8000°C";
                 break;
             case "Antares":
                 objName = "Antares";
-                description = "";
+                description = "Antares is a red supergiant, a large evolved massive star and one of the largest stars visible to the naked eye. It has an avarge temperature of 3200°C";
                 break;
             default:
                 objName = "";

@@ -45,9 +45,9 @@ public class RouteMesh : MonoBehaviour
             6, 2, 3,
             5, 3, 1,        //Forward face
             5, 7, 3,
-            1, 0, 5,          //Top face
+            1, 0, 5,        //Top face
             0, 4, 5,
-            6, 0, 2,          //Back face
+            6, 0, 2,        //Back face
             6, 4, 0
         };
 
