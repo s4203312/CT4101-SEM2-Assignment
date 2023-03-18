@@ -8,7 +8,7 @@ public class CameraMovement : MonoBehaviour {
 
     //Variables for the camera movements
     [SerializeField] private Camera cam;
-    private Transform original;
+    public Vector3 original;
 
     public Pathfinding pathfinding;
 
@@ -18,7 +18,7 @@ public class CameraMovement : MonoBehaviour {
     public void Start() {
         //Setting camera position
         cam.transform.position = new Vector3((SetUp.sizeUniverse / 2), (SetUp.sizeUniverse / 2), - SetUp.sizeUniverse);
-        original = cam.transform;
+        original = cam.transform.position;
 
         //Defining pathfinding
         pathfinding = new Pathfinding();
@@ -40,8 +40,8 @@ public class CameraMovement : MonoBehaviour {
             }
         }
         if (Input.GetMouseButtonDown(1)) {
-            cam.transform.position = original.transform.position;
-            cam.transform.localRotation = original.transform.localRotation;
+            cam.transform.position = original;
+            cam.transform.localRotation = new Quaternion(0,0,0,0);
         }
         
         //Selecting routes

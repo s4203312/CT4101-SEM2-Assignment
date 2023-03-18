@@ -76,7 +76,7 @@ public class CreatingObjects : MonoBehaviour
             var positionStar = new Vector3(Random.Range(0, sizeUniverse), Random.Range(0, sizeUniverse), Random.Range(0, sizeUniverse));
             starArray[i] = Instantiate(star, positionStar, Quaternion.identity);
             starArray[i].transform.tag = "Star";
-            starArray[i].transform.name = starNames[Random.Range(0, starNames.Length)] + " " + i;
+            starArray[i].transform.name = starNames[Random.Range(0, starNames.Length)];
 
             for (var j = 0; j < planetsPerStar; j++)
             {
@@ -114,7 +114,7 @@ public class CreatingObjects : MonoBehaviour
     {
         foreach (var star in starArray)
         {
-            for (var i = 0; i < planetsPerStar; i++)
+            for (var i = 1; i < planetsPerStar; i++)
             {
                 planetSetting = star.gameObject.transform.GetChild(i).gameObject;
                 Vector3 pos = star.transform.position;
