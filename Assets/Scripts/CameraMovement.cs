@@ -17,7 +17,7 @@ public class CameraMovement : MonoBehaviour {
 
     public void Start() {
         //Setting camera position
-        cam.transform.position = new Vector3((SetUp.sizeUniverse / 2), (SetUp.sizeUniverse / 2), - SetUp.sizeUniverse);
+        cam.transform.position = new Vector3((SetUp.sizeUniverse / 1.5f), (SetUp.sizeUniverse / 1.5f), - SetUp.sizeUniverse);
         original = cam.transform.position;
 
         //Defining pathfinding
@@ -69,6 +69,20 @@ public class CameraMovement : MonoBehaviour {
                     pathfinding.FindPath(playerStar, targetStar);
                 }
             }
+        }
+
+        //Moving Camera
+        if (Input.GetKeyDown(KeyCode.W)) {
+            cam.transform.Rotate(-5, 0, 0);
+        }
+        else if (Input.GetKeyDown(KeyCode.A)) {
+            cam.transform.Rotate(0, -5, 0);
+        }
+        else if(Input.GetKeyDown(KeyCode.S)) {
+            cam.transform.Rotate(5, 0, 0);
+        }
+        else if(Input.GetKeyDown(KeyCode.D)) {
+            cam.transform.Rotate(0, 5, 0);
         }
     }
 }
