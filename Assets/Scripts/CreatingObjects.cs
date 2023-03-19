@@ -43,6 +43,9 @@ public class CreatingObjects : MonoBehaviour
     public GameObject route;
     public GameObject routes;
 
+    //Performing checks
+    public bool starChecked;
+
     void Start()
     {
         //Getting Set Up information
@@ -59,12 +62,6 @@ public class CreatingObjects : MonoBehaviour
         Orbiting();
     }
 
-    void OnDrawGizmosSelected()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(new Vector3(0,0,0) , sizeUniverse);
-    }
-
     private void Creation()
     {
         starArray = new GameObject[numberOfStars];
@@ -74,28 +71,39 @@ public class CreatingObjects : MonoBehaviour
         for (var i = 0; i < numberOfStars; i++)
         {
             var positionStar = new Vector3(Random.Range(0, sizeUniverse), Random.Range(0, sizeUniverse), Random.Range(0, sizeUniverse));
-            starArray[i] = Instantiate(star, positionStar, Quaternion.identity);
-            starArray[i].transform.tag = "Star";
-            starArray[i].transform.name = starNames[Random.Range(0, starNames.Length)];
+            
+            CheckingSpawn(positionStar);
+            if (starChecked) {
+                starArray[i] = Instantiate(star, positionStar, Quaternion.identity);
+                starArray[i].transform.tag = "Star";
+                starArray[i].transform.name = starNames[Random.Range(0, starNames.Length)];
 
-            for (var j = 0; j < planetsPerStar; j++)
-            {
-                var positionPlanet = new Vector3(Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f));
-                planetArray[planetCounter] = Instantiate(planet, positionPlanet + positionStar, Quaternion.identity, starArray[i].transform);
-                planetArray[planetCounter].transform.tag = "Planet";
-                planetArray[planetCounter].transform.name = planetNames[Random.Range(0, planetNames.Length)];
-                planetCounter += 1;
-                rotationDirection.Add(rotations[Random.Range(0, rotations.Length)]);
-            }
+                for (var j = 0; j < planetsPerStar; j++) {
+                    var positionPlanet = new Vector3(Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f), Random.Range(-100.0f, 100.0f));
+                    planetArray[planetCounter] = Instantiate(planet, positionPlanet + positionStar, Quaternion.identity, starArray[i].transform);
+                    planetArray[planetCounter].transform.tag = "Planet";
+                    planetArray[planetCounter].transform.name = planetNames[Random.Range(0, planetNames.Length)];
+                    planetCounter += 1;
+                    rotationDirection.Add(rotations[Random.Range(0, rotations.Length)]);
+                }
 
-            //Routes
-            if(previousStar != null) {
-                routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
-                routes.GetComponent<RouteMesh>().Generate(starArray[i].transform.position, previousStar.transform.position);
-                Debug.Log(i);
+                //Routes
+
+                //if (previousStar != null) {
+                //    routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
+                //    routes.GetComponent<RouteMesh>().Generate(starArray[i].transform.position, previousStar.transform.position);
+                //    Debug.Log(i);
+                //}
+                //previousStar = starArray[i];
             }
-            previousStar = starArray[i];
+            else {
+                i--;
+            }
         }
+
+        //Routes better?
+        CreateRoutesAgain();
+
     }
 
     private void Rendering()
@@ -114,14 +122,84 @@ public class CreatingObjects : MonoBehaviour
     {
         foreach (var star in starArray)
         {
-            for (var i = 1; i < planetsPerStar; i++)
+            for (var i = 0; i <= planetsPerStar; i++)
             {
                 planetSetting = star.gameObject.transform.GetChild(i).gameObject;
-                Vector3 pos = star.transform.position;
-                planetSetting.transform.RotateAround(pos, rotationDirection[rotationCounter], Random.Range(5.0f, 30.0f) * Time.deltaTime);
-                rotationCounter += 1;
+                if (planetSetting.tag != "Cam") {
+                    Vector3 pos = star.transform.position;
+                    planetSetting.transform.RotateAround(pos, rotationDirection[rotationCounter], Random.Range(5.0f, 30.0f) * Time.deltaTime);
+                    rotationCounter += 1;
+                } 
             }
         }
         rotationCounter = 0;
     }
+
+    //Checks that no stars are overlapping
+    private void CheckingSpawn(Vector3 position) {
+        Collider[] nStars = Physics.OverlapSphere(position, 50);
+        if(nStars.Length == 0) {
+            starChecked = true;
+            return;
+        }
+        else {
+            starChecked = false;
+            return;
+        }
+    }
+
+    //Creates routes
+    private void CreateRoutes() {
+        foreach (GameObject star in starArray) {
+            Collider[] nStars = Physics.OverlapSphere(star.transform.position, 300);
+            if (nStars != null) {
+                foreach (Collider i in nStars) {
+                    if (i.gameObject.transform != transform) {
+                        if (i.gameObject.transform.tag != "Planet") {
+                            if (Random.Range(1, 4) == 1) {
+                                routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
+                                routes.GetComponent<RouteMesh>().Generate(star.transform.position, i.gameObject.transform.position);
+                            }
+                        }
+                    }
+                }
+            }
+            else {
+                //Something for when no stars are located
+            }
+        }
+    }
+
+
+    GameObject currentSObject;
+
+    //Creates routes
+    private void CreateRoutesAgain() {
+
+        float currentSDistance = 100000;
+        
+        foreach (GameObject star in starArray) {
+            Collider[] nStars = Physics.OverlapSphere(star.transform.position, sizeUniverse);
+            if (nStars != null) {
+                foreach (Collider i in nStars) {
+                    if (i.gameObject.transform != transform) {
+                        if (i.gameObject.transform.tag != "Planet") {
+                            float distance = Vector3.Distance(i.gameObject.transform.position, star.transform.position);
+                            if (distance < currentSDistance) {
+                                currentSDistance = distance;
+                                currentSObject = i.gameObject;
+                            }
+                        }
+                    }
+                }
+            }
+            routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
+            routes.GetComponent<RouteMesh>().Generate(star.transform.position, currentSObject.gameObject.transform.position);
+
+            currentSDistance = 100000;
+        }
+    }
 }
+        
+    
+
