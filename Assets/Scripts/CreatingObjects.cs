@@ -42,6 +42,9 @@ public class CreatingObjects : MonoBehaviour
     public GameObject previousStar;
     public GameObject route;
     public GameObject routes;
+    
+    float currentSDistance;
+    GameObject currentSObject;
 
     //Performing checks
     public bool starChecked;
@@ -102,7 +105,8 @@ public class CreatingObjects : MonoBehaviour
         }
 
         //Routes better?
-        CreateRoutesAgain();
+        CreateRoutes();
+        //CreateRoutesAgain();
 
     }
 
@@ -150,28 +154,52 @@ public class CreatingObjects : MonoBehaviour
 
     //Creates routes
     private void CreateRoutes() {
+
+        currentSDistance = 100000;
+
         foreach (GameObject star in starArray) {
             Collider[] nStars = Physics.OverlapSphere(star.transform.position, 300);
-            if (nStars != null) {
+            if (nStars.Length != 1) {
                 foreach (Collider i in nStars) {
-                    if (i.gameObject.transform != transform) {
+                    if (i.transform != star.transform) {
                         if (i.gameObject.transform.tag != "Planet") {
-                            if (Random.Range(1, 4) == 1) {
+                            if (nStars.Length == 2) {
                                 routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
                                 routes.GetComponent<RouteMesh>().Generate(star.transform.position, i.gameObject.transform.position);
+                            }
+                            else if (Random.Range(1, 4) == 1) {
+                                routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
+                                routes.GetComponent<RouteMesh>().Generate(star.transform.position, i.gameObject.transform.position);
+
                             }
                         }
                     }
                 }
             }
+
             else {
-                //Something for when no stars are located
+                Collider[] n2Stars = Physics.OverlapSphere(star.transform.position, sizeUniverse);
+                if (n2Stars != null) {
+                    foreach (Collider i in n2Stars) {
+                        if (i.transform != star.transform) {
+                            if (i.gameObject.transform.tag != "Planet") {
+                                float distance = Vector3.Distance(i.gameObject.transform.position, star.transform.position);
+                                if (distance < currentSDistance) {
+                                    currentSDistance = distance;
+                                    currentSObject = i.gameObject;
+                                }
+                            }
+                        }
+                    }
+                    if (currentSObject != null) {
+                        routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
+                        routes.GetComponent<RouteMesh>().Generate(star.transform.position, currentSObject.gameObject.transform.position);
+                    }
+                }
+                currentSDistance = 100000;
             }
         }
     }
-
-
-    GameObject currentSObject;
 
     //Creates routes
     private void CreateRoutesAgain() {
@@ -182,7 +210,7 @@ public class CreatingObjects : MonoBehaviour
             Collider[] nStars = Physics.OverlapSphere(star.transform.position, sizeUniverse);
             if (nStars != null) {
                 foreach (Collider i in nStars) {
-                    if (i.gameObject.transform != transform) {
+                    if (i.transform != star.transform) {
                         if (i.gameObject.transform.tag != "Planet") {
                             float distance = Vector3.Distance(i.gameObject.transform.position, star.transform.position);
                             if (distance < currentSDistance) {
@@ -192,10 +220,9 @@ public class CreatingObjects : MonoBehaviour
                         }
                     }
                 }
+                routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
+                routes.GetComponent<RouteMesh>().Generate(star.transform.position, currentSObject.gameObject.transform.position);
             }
-            routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
-            routes.GetComponent<RouteMesh>().Generate(star.transform.position, currentSObject.gameObject.transform.position);
-
             currentSDistance = 100000;
         }
     }
