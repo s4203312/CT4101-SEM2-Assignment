@@ -89,25 +89,12 @@ public class CreatingObjects : MonoBehaviour
                     planetCounter += 1;
                     rotationDirection.Add(rotations[Random.Range(0, rotations.Length)]);
                 }
-
-                //Routes
-
-                //if (previousStar != null) {
-                //    routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
-                //    routes.GetComponent<RouteMesh>().Generate(starArray[i].transform.position, previousStar.transform.position);
-                //    Debug.Log(i);
-                //}
-                //previousStar = starArray[i];
             }
             else {
                 i--;
             }
         }
-
-        //Routes better?
         CreateRoutes();
-        //CreateRoutesAgain();
-
     }
 
     private void Rendering()
@@ -155,10 +142,10 @@ public class CreatingObjects : MonoBehaviour
     //Creates routes
     private void CreateRoutes() {
 
-        currentSDistance = 100000;
+        currentSDistance = int.MaxValue;
 
         foreach (GameObject star in starArray) {
-            Collider[] nStars = Physics.OverlapSphere(star.transform.position, 300);
+            Collider[] nStars = Physics.OverlapSphere(star.transform.position, sizeUniverse / 4);
             if (nStars.Length != 1) {
                 foreach (Collider i in nStars) {
                     if (i.transform != star.transform) {
@@ -180,13 +167,13 @@ public class CreatingObjects : MonoBehaviour
             else {
                 Collider[] n2Stars = Physics.OverlapSphere(star.transform.position, sizeUniverse);
                 if (n2Stars != null) {
-                    foreach (Collider i in n2Stars) {
-                        if (i.transform != star.transform) {
-                            if (i.gameObject.transform.tag != "Planet") {
-                                float distance = Vector3.Distance(i.gameObject.transform.position, star.transform.position);
+                    foreach (Collider j in n2Stars) {
+                        if (j.transform != star.transform) {
+                            if (j.gameObject.transform.tag != "Planet") {
+                                float distance = Vector3.Distance(j.gameObject.transform.position, star.transform.position);
                                 if (distance < currentSDistance) {
                                     currentSDistance = distance;
-                                    currentSObject = i.gameObject;
+                                    currentSObject = j.gameObject;
                                 }
                             }
                         }
@@ -196,34 +183,8 @@ public class CreatingObjects : MonoBehaviour
                         routes.GetComponent<RouteMesh>().Generate(star.transform.position, currentSObject.gameObject.transform.position);
                     }
                 }
-                currentSDistance = 100000;
+                currentSDistance = int.MaxValue;
             }
-        }
-    }
-
-    //Creates routes
-    private void CreateRoutesAgain() {
-
-        float currentSDistance = 100000;
-        
-        foreach (GameObject star in starArray) {
-            Collider[] nStars = Physics.OverlapSphere(star.transform.position, sizeUniverse);
-            if (nStars != null) {
-                foreach (Collider i in nStars) {
-                    if (i.transform != star.transform) {
-                        if (i.gameObject.transform.tag != "Planet") {
-                            float distance = Vector3.Distance(i.gameObject.transform.position, star.transform.position);
-                            if (distance < currentSDistance) {
-                                currentSDistance = distance;
-                                currentSObject = i.gameObject;
-                            }
-                        }
-                    }
-                }
-                routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
-                routes.GetComponent<RouteMesh>().Generate(star.transform.position, currentSObject.gameObject.transform.position);
-            }
-            currentSDistance = 100000;
         }
     }
 }
