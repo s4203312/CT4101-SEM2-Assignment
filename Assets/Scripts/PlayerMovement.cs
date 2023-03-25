@@ -4,13 +4,13 @@ using Unity.VisualScripting;
 using UnityEngine;
 using static UnityEngine.UI.Image;
 
-public class CameraMovement : MonoBehaviour {
+public class PlayerMovement : MonoBehaviour {
 
     //Variables for the camera movements
     [SerializeField] private Camera cam;
     public Vector3 original;
 
-    public Pathfinding pathfinding;
+    //public Pathfinding pathfinding;
 
     public GameObject playerStar;
     public GameObject targetStar;
@@ -21,7 +21,7 @@ public class CameraMovement : MonoBehaviour {
         original = cam.transform.position;
 
         //Defining pathfinding
-        pathfinding = new Pathfinding();
+        //pathfinding = new Pathfinding();
     }
 
     void Update() {
@@ -66,7 +66,9 @@ public class CameraMovement : MonoBehaviour {
                 if (hit.transform.CompareTag("Star"))
                 {
                     targetStar = hit.transform.gameObject;
-                    pathfinding.FindPath(playerStar, targetStar);
+
+                    //Pathfinding_Daryl.FindPath(playerStar, targetStar);
+                    //pathfinding.FindPath(playerStar, targetStar);
                 }
             }
         }
