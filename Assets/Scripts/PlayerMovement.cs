@@ -10,7 +10,7 @@ public class PlayerMovement : MonoBehaviour {
     [SerializeField] private Camera cam;
     public Vector3 original;
 
-    //public Pathfinding pathfinding;
+    [SerializeField] public Material routeMaterial;
 
     public Star playerStar;
     public Star targetStar;
@@ -70,6 +70,7 @@ public class PlayerMovement : MonoBehaviour {
                     
                     foreach(Star star in path) {
                         Debug.Log(star);
+                        star.GetComponent<Renderer>().material = routeMaterial;
                     }
                 }
             }
