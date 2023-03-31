@@ -12,8 +12,8 @@ public class PlayerMovement : MonoBehaviour {
 
     //public Pathfinding pathfinding;
 
-    public GameObject playerStar;
-    public GameObject targetStar;
+    public Star playerStar;
+    public Star targetStar;
 
     public void Start() {
         //Setting camera position
@@ -31,8 +31,6 @@ public class PlayerMovement : MonoBehaviour {
             RaycastHit hit;
             if (Physics.Raycast(ray, out hit)) {
                 if (hit.transform.CompareTag("Star")) {
-                    
-                    playerStar = hit.transform.gameObject;
 
                     cam.transform.position = hit.transform.GetChild(0).transform.position;
                     cam.transform.localRotation = hit.transform.GetChild(0).transform.localRotation;
@@ -44,6 +42,8 @@ public class PlayerMovement : MonoBehaviour {
             cam.transform.localRotation = new Quaternion(0,0,0,0);
         }
         
+
+
         //Selecting routes
         if (Input.GetKeyDown(KeyCode.Z))
         {
@@ -53,7 +53,7 @@ public class PlayerMovement : MonoBehaviour {
             {
                 if (hit.transform.CompareTag("Star"))
                 {
-                    playerStar = hit.transform.gameObject;
+                    playerStar = hit.transform.gameObject.GetComponent<Star>();
                 }
             }
         }
@@ -65,10 +65,12 @@ public class PlayerMovement : MonoBehaviour {
             {
                 if (hit.transform.CompareTag("Star"))
                 {
-                    targetStar = hit.transform.gameObject;
-
-                    //Pathfinding_Daryl.FindPath(playerStar, targetStar);
-                    //pathfinding.FindPath(playerStar, targetStar);
+                    targetStar = hit.transform.gameObject.GetComponent<Star>();
+                    List<Star> path = Pathfinding_Daryl.FindPath(playerStar, targetStar);
+                    
+                    foreach(Star star in path) {
+                        Debug.Log(star);
+                    }
                 }
             }
         }

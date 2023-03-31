@@ -43,6 +43,7 @@ GameObject:
   - component: {fileID: 8101046555648056034}
   - component: {fileID: 6764807540860731158}
   - component: {fileID: 8902828988702616722}
+  - component: {fileID: 2363303975726069039}
   m_Layer: 0
   m_Name: Star
   m_TagString: Untagged
@@ -129,3 +130,16 @@ SphereCollider:
   serializedVersion: 2
   m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2363303975726069039
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8068913760299449713}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dc297b3313c54d14b9c04c8178c3d637, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  starName: 
