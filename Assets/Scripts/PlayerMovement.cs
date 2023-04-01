@@ -19,9 +19,6 @@ public class PlayerMovement : MonoBehaviour {
         //Setting camera position
         cam.transform.position = new Vector3((SetUp.sizeUniverse / 1.5f), (SetUp.sizeUniverse / 1.5f), - SetUp.sizeUniverse);
         original = cam.transform.position;
-
-        //Defining pathfinding
-        //pathfinding = new Pathfinding();
     }
 
     void Update() {
@@ -88,6 +85,14 @@ public class PlayerMovement : MonoBehaviour {
         }
         else if(Input.GetKeyDown(KeyCode.D)) {
             cam.transform.Rotate(0, 5, 0);
+        }
+        else if (Input.GetKeyDown(KeyCode.Q)) {
+            cam.transform.position += new Vector3(0, 0, 15);
+            original = cam.transform.position;
+        }
+        else if (Input.GetKeyDown(KeyCode.E)) {
+            cam.transform.position += new Vector3(0, 0, -15);
+            original = cam.transform.position;
         }
     }
 }
