@@ -33,7 +33,12 @@ public class UserInterface : MonoBehaviour {
                 Details.text = "Planet Name: " + objName + "\nDescription:" + description;
             }
             else if (hit.transform.CompareTag("Star")) {                           //Only interacting with stars
-                StarDetails(hit.transform.name);
+                
+                //Removing the referance number from the name of the star
+                int spacePos = hit.transform.name.IndexOf(" ");
+                string starName = hit.transform.name.Substring(0, spacePos);
+
+                StarDetails(starName);
                 Details.text = "Star Name: " + objName + "\nDescription:" + description;
             }
         }

@@ -16,6 +16,11 @@ public class PlayerMovement : MonoBehaviour {
     public Star playerStar;
     public Star targetStar;
 
+    public int counter = 0;
+    public Star preStar;
+
+
+
     public void Start() {
         //Setting camera position
         cam.transform.position = new Vector3((SetUp.sizeUniverse / 1.5f), (SetUp.sizeUniverse / 1.5f), - SetUp.sizeUniverse);
@@ -65,13 +70,24 @@ public class PlayerMovement : MonoBehaviour {
                 {
                     targetStar = hit.transform.gameObject.GetComponent<Star>();
                     List<Star> path = Pathfinding_Daryl.FindPath(playerStar, targetStar);
-                    
+
                     foreach(Star star in path) {
-                        Debug.Log(star);
-                        foreach(GameObject route in star.routes) {
-                            route.gameObject.GetComponent<Renderer>().material = routeMaterial;
+                        if(counter != 0) {
+                            foreach (GameObject route in star.routes) {
+                                if (route.gameObject.name == "RouteTo " + preStar.gameObject.name || route.gameObject.name == "RouteTo " + star.gameObject.name) {
+                                    route.gameObject.GetComponent<Renderer>().material = routeMaterial;
+                                }
+                            }
+                            foreach (GameObject route in preStar.routes) {
+                                if (route.gameObject.name == "RouteTo " + preStar.gameObject.name || route.gameObject.name == "RouteTo " + star.gameObject.name) {
+                                    route.gameObject.GetComponent<Renderer>().material = routeMaterial;
+                                }
+                            }
                         }
+                        preStar = star;
+                        counter += 1;
                     }
+                    counter = 0;
                 }
             }
         }

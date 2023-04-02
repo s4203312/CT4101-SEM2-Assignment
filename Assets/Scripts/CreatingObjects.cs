@@ -79,7 +79,7 @@ public class CreatingObjects : MonoBehaviour {
                 //Instantiates a star with a tag and a random name. Adds star to the galaxy list for pathfinding
                 starArray[i] = Instantiate(star, positionStar, Quaternion.identity).GetComponent<Star>();
                 starArray[i].transform.tag = "Star";
-                starArray[i].transform.name = starNames[Random.Range(0, starNames.Length)];
+                starArray[i].transform.name = starNames[Random.Range(0, starNames.Length)] + " " + i;         //Naming the stars with a name and random number to differeniate between same name stars
                 starArray[i].starName = starArray[i].transform.name;
                 galaxyStarList.Add(starArray[i]);
 
@@ -152,11 +152,13 @@ public class CreatingObjects : MonoBehaviour {
                         if (i.TryGetComponent<Star>(out Star otherStar)) {                              //Ignoring all other objects other than stars
                             if (nStars.Length == 2) {                                                   //Checking if it only has on neighbour
                                 routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
+                                routes.gameObject.name = "RouteTo " + otherStar.gameObject.name;                        //Names the routes referencing the stars for later use
                                 routes.GetComponent<RouteMesh>().Generate(star.transform.position, i.gameObject.transform.position);
                                 SaveRoutes(star, otherStar, routes);                                            //Saving route for pathfinding uses
                             }
                             else if (Random.Range(1, 4) == 1) {                                         //Giving a random 1 in 3 chance that it spawns a route if star has more than 1 neighbouring star
                                 routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
+                                routes.gameObject.name = "RouteTo " + otherStar.gameObject.name;                        //Names the routes referencing the stars for later use
                                 routes.GetComponent<RouteMesh>().Generate(star.transform.position, i.gameObject.transform.position);
                                 SaveRoutes(star, otherStar, routes);                                            //Saving route for pathfinding uses
                             }
@@ -181,6 +183,7 @@ public class CreatingObjects : MonoBehaviour {
                     }
                     if (currentSObject != null) {
                         routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
+                        routes.gameObject.name = "RouteTo " + currentSObject.gameObject.name;                       //Names the routes referencing the stars for later use
                         routes.GetComponent<RouteMesh>().Generate(star.transform.position, currentSObject.gameObject.transform.position);
                         SaveRoutes(star, currentSObject, routes);                                               //Saving route for pathfinding uses
                     }
@@ -197,7 +200,6 @@ public class CreatingObjects : MonoBehaviour {
 
         if (!star.starRoutes.ContainsKey(otherStar)) {                                                  //Add the other star and the distance of route into my dictionary
             star.starRoutes.Add(otherStar, distanceStars);
-            Debug.Log("Route created from " + star.name + " to " + otherStar.name);
         }
         if (!otherStar.starRoutes.ContainsKey(star)) {                                                  //Add the star and the distance of route into my dictionary
             otherStar.starRoutes.Add(star, distanceStars);
