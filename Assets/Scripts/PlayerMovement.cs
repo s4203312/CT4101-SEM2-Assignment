@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
@@ -67,7 +68,9 @@ public class PlayerMovement : MonoBehaviour {
                     
                     foreach(Star star in path) {
                         Debug.Log(star);
-                        star.GetComponent<Renderer>().material = routeMaterial;
+                        foreach(GameObject route in star.routes) {
+                            route.gameObject.GetComponent<Renderer>().material = routeMaterial;
+                        }
                     }
                 }
             }

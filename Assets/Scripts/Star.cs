@@ -7,4 +7,5 @@ public class Star : MonoBehaviour {
 
     public string starName;
     public Dictionary<Star, float> starRoutes = new Dictionary<Star, float>();
+    public List<GameObject> routes;
 }

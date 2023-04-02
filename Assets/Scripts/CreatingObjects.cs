@@ -42,7 +42,7 @@ public class CreatingObjects : MonoBehaviour {
     public GameObject previousStar;
     public GameObject route;
     public GameObject routes;
-
+    public List<GameObject> starRoutes;
     float currentSDistance;
     Star currentSObject;
 
@@ -69,6 +69,7 @@ public class CreatingObjects : MonoBehaviour {
         planetArray = new GameObject[planetsPerStar * numberOfStars];
         rotationDirection = new List<Vector3>();
         galaxyStarList = new List<Star>();
+        starRoutes = new List<GameObject>();
 
         for (var i = 0; i < numberOfStars; i++) {
             var positionStar = new Vector3(Random.Range(0, sizeUniverse), Random.Range(0, sizeUniverse), Random.Range(0, sizeUniverse));        //Randomly finds position in universe
@@ -152,12 +153,12 @@ public class CreatingObjects : MonoBehaviour {
                             if (nStars.Length == 2) {                                                   //Checking if it only has on neighbour
                                 routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
                                 routes.GetComponent<RouteMesh>().Generate(star.transform.position, i.gameObject.transform.position);
-                                SaveRoutes(star, otherStar);                                            //Saving route for pathfinding uses
+                                SaveRoutes(star, otherStar, routes);                                            //Saving route for pathfinding uses
                             }
                             else if (Random.Range(1, 4) == 1) {                                         //Giving a random 1 in 3 chance that it spawns a route if star has more than 1 neighbouring star
                                 routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
                                 routes.GetComponent<RouteMesh>().Generate(star.transform.position, i.gameObject.transform.position);
-                                SaveRoutes(star, otherStar);                                            //Saving route for pathfinding uses
+                                SaveRoutes(star, otherStar, routes);                                            //Saving route for pathfinding uses
                             }
                         }
                     }
@@ -181,7 +182,7 @@ public class CreatingObjects : MonoBehaviour {
                     if (currentSObject != null) {
                         routes = GameObject.Instantiate(route, new Vector3(0, 0, 0), Quaternion.identity);
                         routes.GetComponent<RouteMesh>().Generate(star.transform.position, currentSObject.gameObject.transform.position);
-                        SaveRoutes(star, currentSObject);                                               //Saving route for pathfinding uses
+                        SaveRoutes(star, currentSObject, routes);                                               //Saving route for pathfinding uses
                     }
                 }
                 currentSDistance = int.MaxValue;        //Reseting the distance for the next star
@@ -190,7 +191,7 @@ public class CreatingObjects : MonoBehaviour {
     }
 
     //Saving the routes into the star information
-    public void SaveRoutes(Star star, Star otherStar) {
+    public void SaveRoutes(Star star, Star otherStar, GameObject routes) {
 
         float distanceStars = (star.transform.position - otherStar.transform.position).magnitude;       //Finding distance between stars
 
@@ -201,6 +202,8 @@ public class CreatingObjects : MonoBehaviour {
         if (!otherStar.starRoutes.ContainsKey(star)) {                                                  //Add the star and the distance of route into my dictionary
             otherStar.starRoutes.Add(star, distanceStars);
         }
+
+        star.routes.Add(routes);
     }
 }
         

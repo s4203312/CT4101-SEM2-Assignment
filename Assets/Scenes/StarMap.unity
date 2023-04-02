@@ -185,6 +185,7 @@ MonoBehaviour:
   previousStar: {fileID: 0}
   route: {fileID: 1018766893429564131, guid: cb4e77ccd32c07f4d8f4f792d8f24d32, type: 3}
   routes: {fileID: 0}
+  starRoutes: []
   starChecked: 0
 --- !u!4 &243172546
 Transform:
@@ -712,7 +713,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cam: {fileID: 1834260431}
   original: {x: 0, y: 0, z: 0}
-  routeMaterial: {fileID: 2100000, guid: 687228e9587463345a29196e47f1f133, type: 2}
+  routeMaterial: {fileID: 2100000, guid: 7ecf312ad1a60754e86e1ae5ecf72d6f, type: 2}
   playerStar: {fileID: 0}
   targetStar: {fileID: 0}
 --- !u!1 &1955758215
