@@ -1,8 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Threading;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class SetUp : MonoBehaviour
 {
@@ -18,6 +20,7 @@ public class SetUp : MonoBehaviour
         sizeUniverse = float.Parse(sizeUniverseInput.text);
         numberOfStars = int.Parse(numberOfStarsInput.text);
         planetsPerStar = int.Parse(planetsPerStarInput.text);
+
         SceneManager.LoadScene("StarMap");
     }
 }

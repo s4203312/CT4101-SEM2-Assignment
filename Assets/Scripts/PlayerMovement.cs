@@ -18,8 +18,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public int counter = 0;
     public Star preStar;
-
-
+    public List<Star> path;
 
     public void Start() {
         //Setting camera position
@@ -69,7 +68,7 @@ public class PlayerMovement : MonoBehaviour {
                 if (hit.transform.CompareTag("Star"))
                 {
                     targetStar = hit.transform.gameObject.GetComponent<Star>();
-                    List<Star> path = Pathfinding_Daryl.FindPath(playerStar, targetStar);
+                    path = Pathfinding_Daryl.FindPath(playerStar, targetStar);
 
                     foreach(Star star in path) {
                         if(counter != 0) {
@@ -87,6 +86,8 @@ public class PlayerMovement : MonoBehaviour {
                         preStar = star;
                         counter += 1;
                     }
+                    Spaceship spaceship = GameObject.Find("Ship").GetComponent<Spaceship>();
+                    spaceship.SpawnShip(path);
                     counter = 0;
                 }
             }
