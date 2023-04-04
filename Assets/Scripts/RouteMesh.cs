@@ -7,16 +7,19 @@ public class RouteMesh : MonoBehaviour
 {
     Mesh mesh;
 
+    //Mesh variables
     Vector3[] vertices;
     int[] triangles;
     Vector2[] uvs;
 
     private void Awake() {
+        //Creating original mesh
         mesh = new Mesh();
         mesh.name = "Route";
         GetComponent<MeshFilter>().sharedMesh = mesh;
     }
 
+    //Function that takes in a start and end point and draws a cube mesh between them
     public void Generate(Vector3 startPoint, Vector3 endPoint) {
 
         //Defining Vertices

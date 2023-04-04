@@ -90,7 +90,7 @@ public class CreatingObjects : MonoBehaviour {
                     planetArray[planetCounter].transform.tag = "Planet";
                     planetArray[planetCounter].transform.name = planetNames[Random.Range(0, planetNames.Length)];
                     planetCounter += 1;
-                    rotationDirection.Add(rotations[Random.Range(0, rotations.Length)]);
+                    rotationDirection.Add(rotations[Random.Range(0, rotations.Length)]);                        //Finding random rotation for the planet to rotate around star with
                 }
             }
             else {
@@ -118,7 +118,7 @@ public class CreatingObjects : MonoBehaviour {
                 planetSetting = star.gameObject.transform.GetChild(i).gameObject;
                 if (planetSetting.tag != "Cam") {                                   //Disallowing the rotation of the preview camera
                     Vector3 pos = star.transform.position;
-                    planetSetting.transform.RotateAround(pos, rotationDirection[rotationCounter], Random.Range(5.0f, 30.0f) * Time.deltaTime);      //Setting a radom rotation direction
+                    planetSetting.transform.RotateAround(pos, rotationDirection[rotationCounter], Random.Range(5.0f, 30.0f) * Time.deltaTime);      //Setting a random rotation direction
                     rotationCounter += 1;
                 }
             }

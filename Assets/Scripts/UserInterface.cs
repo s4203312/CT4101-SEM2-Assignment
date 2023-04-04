@@ -30,7 +30,7 @@ public class UserInterface : MonoBehaviour {
         if (Physics.Raycast(ray, out hit)) {
             if (hit.transform.CompareTag("Planet")) {                           //Only interacting with planets
                 PlanetDetails(hit.transform.name);
-                Details.text = "Planet Name: " + objName + "\nDescription:" + description;
+                Details.text = "Planet Name: " + objName + "\nDescription:" + description;          //Updating UI with planet information
             }
             else if (hit.transform.CompareTag("Star")) {                           //Only interacting with stars
                 
@@ -39,11 +39,11 @@ public class UserInterface : MonoBehaviour {
                 string starName = hit.transform.name.Substring(0, spacePos);
 
                 StarDetails(starName);
-                Details.text = "Star Name: " + objName + "\nDescription:" + description;
+                Details.text = "Star Name: " + objName + "\nDescription:" + description;            // Updating UI with star information
             }
         }
         else {
-            Details.text = "";
+            Details.text = "";      //Clearing UI when nothing is in player sights
         }
     }
     //Details of planets
