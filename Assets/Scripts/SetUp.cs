@@ -28,6 +28,7 @@ public class SetUp : MonoBehaviour
 
         teleport.SetActive(true);
         teleport.GetComponent<Animator>().SetTrigger("teleport");
+        GetComponent<AudioSource>().Play();
         pressed = true;
         
     }
