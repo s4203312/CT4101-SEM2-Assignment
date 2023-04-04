@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour {
 
     public void Start() {
         //Setting camera position
-        cam.transform.position = new Vector3((SetUp.sizeUniverse / 1.5f), (SetUp.sizeUniverse / 1.5f), - SetUp.sizeUniverse);
+        cam.transform.position = new Vector3((SetUp.sizeUniverse / 1.5f), (SetUp.sizeUniverse / 1.5f), - SetUp.sizeUniverse * 1.5f);
         original = cam.transform.position;
     }
 
@@ -121,7 +121,10 @@ public class PlayerMovement : MonoBehaviour {
 
                     //Setting the spaceship to move along the route
                     Spaceship spaceship = GameObject.Find("Ship").GetComponent<Spaceship>();
-                    spaceship.SpawnShip(path);
+                    if (path != null) {
+                        spaceship.SpawnShip(path);
+                    }
+
                     counter = 0;
                 }
             }
