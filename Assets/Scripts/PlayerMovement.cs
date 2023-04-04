@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour {
     public Vector3 original;
 
     [SerializeField] public Material routeMaterial;
+    [SerializeField] public Material material;
 
     public Star playerStar;
     public Star targetStar;
@@ -56,6 +57,7 @@ public class PlayerMovement : MonoBehaviour {
                 if (hit.transform.CompareTag("Star"))
                 {
                     playerStar = hit.transform.gameObject.GetComponent<Star>();
+                    hit.transform.gameObject.GetComponent<AudioSource>().Play();
                 }
             }
         }
@@ -68,8 +70,18 @@ public class PlayerMovement : MonoBehaviour {
                 if (hit.transform.CompareTag("Star"))
                 {
                     targetStar = hit.transform.gameObject.GetComponent<Star>();
+                    hit.transform.gameObject.GetComponent<AudioSource>().Play();
+                    
+                    //Performing the pathfinding
                     path = Pathfinding_Daryl.FindPath(playerStar, targetStar);
 
+                    //Reseting the previous route colours to white
+                    GameObject[] preRoutes = GameObject.FindGameObjectsWithTag("Route");
+                    foreach(GameObject route in preRoutes) {
+                        route.gameObject.GetComponent<Renderer>().material = material;
+                    }
+
+                    //Changing the colour of the route
                     foreach(Star star in path) {
                         if(counter != 0) {
                             foreach (GameObject route in star.routes) {
