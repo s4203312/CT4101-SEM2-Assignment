@@ -2,22 +2,24 @@ using System.Collections;
 using System.Collections.Generic;
 using System.IO;
 using Unity.VisualScripting;
+using UnityEditor.Experimental;
 using UnityEngine;
 
 public class Spaceship : MonoBehaviour {
+    
     //Ship variables
     public GameObject ship;
     List<Star> path;
     Star[] arrayPath;
-    int i = 0;
+    public int i = 0;
+    public bool moving = false;
 
-    bool moving = false;
-
+    //Function for setting the route array and to start the spaceship at ther first star
     public void SpawnShip(List<Star> shipPath) {
         path = shipPath;
         arrayPath = new Star[shipPath.Count];
 
-
+        //Setting up the route
         foreach (Star star in path) {
             arrayPath[i] = star;
             i++;
@@ -28,13 +30,14 @@ public class Spaceship : MonoBehaviour {
         moving = true;
     }
 
+    //Moving ship every frame if moving is true
     public void Update() {
         if (moving) {
             MoveShip(path);
         }
     }
 
-
+    //Moving ship torwards the star unitl it arrives then setting it to move torwards the next star
     public void MoveShip(List<Star> shipPath) {
         if (i != arrayPath.Length) {
             ship.transform.position = Vector3.MoveTowards(transform.position, arrayPath[i].transform.position, 0.1f);
@@ -48,6 +51,7 @@ public class Spaceship : MonoBehaviour {
         }
     }
 
+    //Reseting its position back to the start when it arrvies at its destination
     public void ResetingShip() {
 
         ship.transform.position = arrayPath[0].transform.position;

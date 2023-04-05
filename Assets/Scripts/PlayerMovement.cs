@@ -122,6 +122,8 @@ public class PlayerMovement : MonoBehaviour {
                     //Setting the spaceship to move along the route
                     Spaceship spaceship = GameObject.Find("Ship").GetComponent<Spaceship>();
                     if (path != null) {
+                        spaceship.moving = false;
+                        spaceship.i = 0;
                         spaceship.SpawnShip(path);
                     }
 
