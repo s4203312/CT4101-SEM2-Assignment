@@ -14,6 +14,9 @@ public class Spaceship : MonoBehaviour {
     public int i = 0;
     public bool moving = false;
 
+    public bool lightSwitch;
+    public int lightCounter;
+
     //Function for setting the route array and to start the spaceship at ther first star
     public void SpawnShip(List<Star> shipPath) {
         path = shipPath;
@@ -34,6 +37,7 @@ public class Spaceship : MonoBehaviour {
     public void Update() {
         if (moving) {
             MoveShip(path);
+            LightFlashing();
         }
     }
 
@@ -57,5 +61,20 @@ public class Spaceship : MonoBehaviour {
         ship.transform.position = arrayPath[0].transform.position;
         i = 1;
         moving = true;
+    }
+
+    //For flashing the light
+    public void LightFlashing() {
+        if(lightCounter == 300) {
+            if (lightSwitch) {
+                lightSwitch = false;
+            }
+            else {
+                lightSwitch = true;
+            }
+            ship.transform.GetChild(7).gameObject.SetActive(lightSwitch);
+            lightCounter = 0;
+        }
+        lightCounter++;
     }
 }
