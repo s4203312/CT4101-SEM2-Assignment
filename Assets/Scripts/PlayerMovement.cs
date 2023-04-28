@@ -84,50 +84,72 @@ public class PlayerMovement : MonoBehaviour {
                     hit.transform.gameObject.GetComponent<AudioSource>().Play();         //Playing a sound so player knows that input has been recorded
 
                     //Performing the pathfinding
-                    path = Pathfinding_Daryl.FindPath(playerStar, targetStar);
+                    if (playerStar != null)
+                    {
+                        path = Pathfinding_Daryl.FindPath(playerStar, targetStar);
 
-                    //Reseting the previous route colours to white
-                    GameObject[] preRoutes = GameObject.FindGameObjectsWithTag("Route");
-                    foreach(GameObject route in preRoutes) {
-                        route.gameObject.GetComponent<Renderer>().material = material;
-                    }
-
-                    //Setting title
-                    information = "Selected Route \n \n";
-
-                    //Changing the colour of the route
-                    foreach (Star star in path) {
-
-                        information += star.name + "\n"; 
-
-                        if(counter != 0) {
-                            foreach (GameObject route in star.routes) {
-                                if (route.gameObject.name == "RouteTo " + preStar.gameObject.name || route.gameObject.name == "RouteTo " + star.gameObject.name) {
-                                    route.gameObject.GetComponent<Renderer>().material = routeMaterial;
-                                }
-                            }
-                            foreach (GameObject route in preStar.routes) {
-                                if (route.gameObject.name == "RouteTo " + preStar.gameObject.name || route.gameObject.name == "RouteTo " + star.gameObject.name) {
-                                    route.gameObject.GetComponent<Renderer>().material = routeMaterial;
-                                }
-                            }
+                        //Reseting the previous route colours to white
+                        GameObject[] preRoutes = GameObject.FindGameObjectsWithTag("Route");
+                        foreach (GameObject route in preRoutes)
+                        {
+                            route.gameObject.GetComponent<Renderer>().material = material;
                         }
-                        preStar = star;
-                        counter += 1;
-                    }
-                    //Updating UI for the route
-                    routeInfo.gameObject.SetActive(true);
-                    routeInfo.SetText(information);
 
-                    //Setting the spaceship to move along the route
-                    Spaceship spaceship = GameObject.Find("Ship").GetComponent<Spaceship>();
-                    if (path != null) {
-                        spaceship.moving = false;
-                        spaceship.i = 0;
-                        spaceship.SpawnShip(path);
-                    }
+                        //Checking if there was a correct path found
+                        if (path.Count != 0)
+                        {
+                            //Setting title
+                            information = "Selected Route \n \n";
 
-                    counter = 0;
+                            //Changing the colour of the route
+                            foreach (Star star in path)
+                            {
+
+                                information += star.name + "\n";
+
+                                if (counter != 0)
+                                {
+                                    foreach (GameObject route in star.routes)
+                                    {
+                                        if (route.gameObject.name == "RouteTo " + preStar.gameObject.name || route.gameObject.name == "RouteTo " + star.gameObject.name)
+                                        {
+                                            route.gameObject.GetComponent<Renderer>().material = routeMaterial;
+                                        }
+                                    }
+                                    foreach (GameObject route in preStar.routes)
+                                    {
+                                        if (route.gameObject.name == "RouteTo " + preStar.gameObject.name || route.gameObject.name == "RouteTo " + star.gameObject.name)
+                                        {
+                                            route.gameObject.GetComponent<Renderer>().material = routeMaterial;
+                                        }
+                                    }
+                                }
+                                preStar = star;
+                                counter += 1;
+                            }
+
+                            //Setting the spaceship to move along the route
+                            Spaceship spaceship = GameObject.Find("Ship").GetComponent<Spaceship>();
+                            if (path != null)
+                            {
+                                spaceship.moving = false;
+                                spaceship.i = 0;
+                                spaceship.SpawnShip(path);
+                            }
+
+                            counter = 0;
+                        }
+                        else
+                        {
+                            information = "No Availiable Routes.";
+                            Spaceship spaceship = GameObject.Find("Ship").GetComponent<Spaceship>();
+                            spaceship.StopShip();
+                        }
+                        
+                        //Updating UI for the route
+                        routeInfo.gameObject.SetActive(true);
+                        routeInfo.SetText(information);
+                    }
                 }
             }
         }

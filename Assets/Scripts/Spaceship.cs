@@ -77,4 +77,8 @@ public class Spaceship : MonoBehaviour {
         }
         lightCounter++;
     }
+
+    public void StopShip(){
+        ship.transform.position = new Vector3(10000, 10000, 10000);
+    }
 }

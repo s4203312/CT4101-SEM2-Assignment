@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Controls : MonoBehaviour
 {
@@ -10,5 +11,11 @@ public class Controls : MonoBehaviour
     }
     public void CloseControls() {
         gameObject.SetActive(false);
+    }
+    public void EscapeGame() {
+        Application.Quit();
+    }
+    public void MainMenu() {
+        SceneManager.LoadScene("Menu");
     }
 }

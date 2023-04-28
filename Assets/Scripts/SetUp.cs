@@ -22,7 +22,7 @@ public class SetUp : MonoBehaviour
     bool pressed = false;
 
     public void StartGame() {
-        //Setting the player inputs as static varialbe for the map
+        //Setting the player inputs as static variable for the map
         sizeUniverse = float.Parse(sizeUniverseInput.text);
         numberOfStars = int.Parse(numberOfStarsInput.text);
         planetsPerStar = int.Parse(planetsPerStarInput.text);
