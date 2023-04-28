@@ -12,6 +12,11 @@ public class SetUp : MonoBehaviour
     [SerializeField] private TMP_InputField sizeUniverseInput;
     [SerializeField] private TMP_InputField numberOfStarsInput;
     [SerializeField] private TMP_InputField planetsPerStarInput;
+    
+    [SerializeField] private Slider sizeUniverseInput1;
+    [SerializeField] private Slider numberOfStarsInput1;
+    [SerializeField] private Slider planetsPerStarInput1;
+
     public static float sizeUniverse;
     public static int numberOfStars;
     public static int planetsPerStar;
@@ -23,9 +28,41 @@ public class SetUp : MonoBehaviour
 
     public void StartGame() {
         //Setting the player inputs as static variable for the map
-        sizeUniverse = float.Parse(sizeUniverseInput.text);
+        //sizeUniverse = float.Parse(sizeUniverseInput.text);
         numberOfStars = int.Parse(numberOfStarsInput.text);
-        planetsPerStar = int.Parse(planetsPerStarInput.text);
+        //planetsPerStar = int.Parse(planetsPerStarInput.text);
+
+        //Size of universe switch statement
+        switch(sizeUniverseInput1.value) {
+            case 1:
+                sizeUniverse = 500;
+                    break;
+            case 2:
+                sizeUniverse = 1000;
+                    break;
+            case 3:
+                sizeUniverse = 2000;
+                    break;
+            default:
+                break;
+        }
+
+        //Amount of planets switch statement
+        switch (planetsPerStarInput1.value)
+        {
+            case 1:
+                planetsPerStar = 1;
+                break;
+            case 2:
+                planetsPerStar = 3;
+                break;
+            case 3:
+                planetsPerStar = 5;
+                break;
+            default:
+                break;
+        }
+
 
         //Starting the teleport animation
         teleport.SetActive(true);
