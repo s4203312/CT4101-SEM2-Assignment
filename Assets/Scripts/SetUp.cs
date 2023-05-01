@@ -9,13 +9,9 @@ using UnityEngine.UI;
 public class SetUp : MonoBehaviour
 {
     //Variables for the player inputs
-    [SerializeField] private TMP_InputField sizeUniverseInput;
-    [SerializeField] private TMP_InputField numberOfStarsInput;
-    [SerializeField] private TMP_InputField planetsPerStarInput;
-    
-    [SerializeField] private Slider sizeUniverseInput1;
-    [SerializeField] private Slider numberOfStarsInput1;
-    [SerializeField] private Slider planetsPerStarInput1;
+    [SerializeField] private Slider sizeUniverseInput;
+    [SerializeField] private Slider numberOfStarsInput;
+    [SerializeField] private Slider planetsPerStarInput;
 
     public static float sizeUniverse;
     public static int numberOfStars;
@@ -28,27 +24,68 @@ public class SetUp : MonoBehaviour
 
     public void StartGame() {
         //Setting the player inputs as static variable for the map
-        //sizeUniverse = float.Parse(sizeUniverseInput.text);
-        numberOfStars = int.Parse(numberOfStarsInput.text);
-        //planetsPerStar = int.Parse(planetsPerStarInput.text);
-
         //Size of universe switch statement
-        switch(sizeUniverseInput1.value) {
+        switch(sizeUniverseInput.value) {
             case 1:
                 sizeUniverse = 500;
-                    break;
+                //Switch case for the amount of stars depending on the size of universe
+                switch (numberOfStarsInput.value) {
+                    case 1:
+                        numberOfStars = 50;
+                        break;
+                    case 2:
+                        numberOfStars = 100;
+                        break;
+                    case 3:
+                        numberOfStars = 150;
+                        break;
+                    default:
+                        break;
+                }
+                
+                break;
             case 2:
                 sizeUniverse = 1000;
-                    break;
+                //Switch case for the amount of stars depending on the size of universe
+                switch (numberOfStarsInput.value) {
+                    case 1:
+                        numberOfStars = 100;
+                        break;
+                    case 2:
+                        numberOfStars = 150;
+                        break;
+                    case 3:
+                        numberOfStars = 200;
+                        break;
+                    default:
+                        break;
+                }
+
+                break;
             case 3:
                 sizeUniverse = 2000;
-                    break;
+                //Switch case for the amount of stars depending on the size of universe
+                switch (numberOfStarsInput.value) {
+                    case 1:
+                        numberOfStars = 150;
+                        break;
+                    case 2:
+                        numberOfStars = 200;
+                        break;
+                    case 3:
+                        numberOfStars = 250;
+                        break;
+                    default:
+                        break;
+                }
+
+                break;
             default:
                 break;
         }
 
         //Amount of planets switch statement
-        switch (planetsPerStarInput1.value)
+        switch (planetsPerStarInput.value)
         {
             case 1:
                 planetsPerStar = 1;
